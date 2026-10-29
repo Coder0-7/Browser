@@ -9,7 +9,13 @@ export const AVAILABLE_TRANSPORTS: ReadonlyArray<{
 	{ value: "libcurl", label: "Libcurl" },
 	{ value: "epoxy", label: "Epoxy" },
 ];
-const DEFAULT_WISP_URL = "wss://bug-free-guide-5vx4wj6g4q64c7pwq-4142.app.github.dev/";
+const DEFAULT_WISP_URL = (() => {
+  const host = window.location.hostname;
+  if (host.endsWith(".app.github.dev")) {
+    return `wss://${host.replace(/-4141(?=\.app\.github\.dev$)/, "-4142")}/`;
+  }
+  return "ws://localhost:4142/";
+})();
 const DEFAULT_TRANSPORT: AvailableTransports = "libcurl";
 const DEFAULT_HOME_URL = "https://instagram.com";
 const DEFAULT_MAX_REQUESTS = 200;
